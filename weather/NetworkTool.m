@@ -22,7 +22,7 @@ static NetworkTool *tool;
 }
 
 - (void)getInfoWithCityID:(NSString *)cityID success:(void (^)(Weather *weather))success failure:(void (^)())failure{
- //   http://m.weather.com.cn/atad/101090801.html
+
     NSString *urlStr = [NSString stringWithFormat:@"http://wthrcdn.etouch.cn/weather_mini?citykey=%@",cityID];
     NSLog(@"url:%@",urlStr);
     NSURL *url = [NSURL URLWithString:urlStr];

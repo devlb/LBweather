@@ -91,7 +91,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    self.tableView.scrollEnabled = NO;
+    self.tableView.allowsSelection = NO;
     [self.view addSubview:self.tableView];
 }
 
@@ -99,8 +99,9 @@
     CGFloat weatherH = 200;
     CGFloat edge = 8;
     CGFloat imgW = 40;
-    CGFloat numW = 90;
+    CGFloat numW = 120;
     CGFloat minLabelW = 90;
+    CGFloat numH = 70;
     
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     self.weatherView = [[UIView alloc] initWithFrame:CGRectMake(0, mainSize.height - edge - weatherH - 5 * 44, mainSize.width, weatherH)];
@@ -119,9 +120,10 @@
     self.maxLabel.textColor = [UIColor whiteColor];
     self.maxLabel.adjustsFontSizeToFitWidth = YES;
     
-    self.temperatureLabel = [[UILabel alloc] initWithFrame:CGRectMake(edge, CGRectGetMaxY(self.minLabel.frame) + edge, numW, numW)];
+    self.temperatureLabel = [[UILabel alloc] initWithFrame:CGRectMake(edge, CGRectGetMaxY(self.minLabel.frame) + edge, numW, numH)];
     self.temperatureLabel.font = [UIFont fontWithName:[UILabel new].font.fontName size:60];
     self.temperatureLabel.textColor = [UIColor whiteColor];
+    self.temperatureLabel.adjustsFontSizeToFitWidth = YES;
     
     [self.weatherView addSubview:self.imageView];
     [self.weatherView addSubview:self.typeLabel];
@@ -164,7 +166,7 @@
             weakSelf.typeLabel.text = itm.type;
             weakSelf.minLabel.text = [itm.low substringFromIndex:2];
             weakSelf.maxLabel.text = [itm.high substringFromIndex:2];
-            weakSelf.temperatureLabel.text = weakSelf.data.wendu;
+            weakSelf.temperatureLabel.text = [NSString stringWithFormat:@"%@℃", weakSelf.data.wendu];
             [weakSelf.tableView reloadData];
         });
         
@@ -230,6 +232,7 @@
     
     return cell;
 }
+
 
 
 - (void)didReceiveMemoryWarning {

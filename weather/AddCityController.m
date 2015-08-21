@@ -84,6 +84,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSMutableArray *tmpArr = self.resultArr.mutableCopy;
     self.resultArr = [NSMutableArray array];
     for (NSArray *citys in self.cityArr) {
         for (NSString *cityName in citys) {
@@ -97,10 +98,16 @@
                     [self.resultArr addObject:@{citys[0]:cityName}];
                 }
                 
-                [self.resultTableView reloadData];
             }
         }
     }
+    
+    if(self.resultArr.count > 0){
+        [self.resultTableView reloadData];
+    }else{
+        self.resultArr = tmpArr;
+    }
+
 }
 
 
