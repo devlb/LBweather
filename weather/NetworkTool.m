@@ -36,7 +36,12 @@ static NetworkTool *tool;
            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
            
            Weather *t = [[Weather alloc] initWithDictionary:dic];
-           success(t);
+           if([t.desc isEqual:@"OK"]){
+               success(t);
+           }else{
+               failure();
+           }
+           
        }
     }];
 

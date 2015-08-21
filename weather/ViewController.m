@@ -44,7 +44,8 @@
     [super viewDidLoad];
     
     mainSize = self.view.frame.size;
-   
+    self.cityDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityDic"];
+    
     [self addHeadView];
     [self addWeatherView];
     [self addTableView];
@@ -233,7 +234,9 @@
     return cell;
 }
 
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [[NSUserDefaults standardUserDefaults] setObject:self.cityDic  forKey:@"cityDic"];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
