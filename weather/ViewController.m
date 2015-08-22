@@ -13,13 +13,15 @@
 #import "Weather.h"
 #import "ViewController.h"
 #import "AddCityController.h"
-#import "MBProgressHUD.h"
+//#import "MBProgressHUD.h"
+
+#define HEADVIEWTAG 300
 
 //Github源码地址 https://github.com/LBhub/LBweather.git
 //联系邮箱:devlibo@163.com
 //欢迎指正问题
 
-@interface ViewController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,MBProgressHUDDelegate>
+@interface ViewController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 {
     UIView *headView;
     UILabel *cityLabel;
@@ -61,10 +63,12 @@
     CGFloat headViewH = 44;
     CGFloat btnH = 22;
     CGFloat labelH = 22;
+    CGFloat edge = 8;
     
     headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainSize.width, headViewH)];
     headView.backgroundColor = [UIColor clearColor];
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(8, (headViewH - btnH) / 2, 60, btnH)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(mainSize.width - 2 * edge - btnH, (headViewH - btnH) / 2, btnH, btnH)];
+    headView.tag = HEADVIEWTAG;
     
     [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
     [btn setTitle:@"+" forState:(UIControlStateNormal)];
@@ -82,7 +86,7 @@
     [headView addSubview:btn];
     [headView addSubview:cityLabel];
     [headView addSubview:timeLabel];
-    [self.navigationController.navigationBar addSubview:headView];
+   
 }
 
 - (void)addTableView{
@@ -104,7 +108,6 @@
     CGFloat minLabelW = 90;
     CGFloat numH = 70;
     
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     self.weatherView = [[UIView alloc] initWithFrame:CGRectMake(0, mainSize.height - edge - weatherH - 5 * 44, mainSize.width, weatherH)];
     self.weatherView.backgroundColor = [UIColor clearColor];
     
@@ -132,10 +135,15 @@
     [self.weatherView addSubview:self.maxLabel];
     
     [self.weatherView addSubview:self.temperatureLabel];
-    [self.navigationController.navigationBar addSubview:self.weatherView];
+    [self.view addSubview:self.weatherView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
+    if (![self.navigationController.navigationBar isDescendantOfView:headView ]) {
+        [self.navigationController.navigationBar addSubview:headView];
+    }
+    
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:(UIBarMetricsCompact)];
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];

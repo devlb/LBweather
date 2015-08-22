@@ -11,6 +11,7 @@
 #define TABLEVIEWTAG 201
 #define RESULTTABLEVIEWTAG 202
 #define CELLHEADVIEWH 44
+#define HEADVIEWTAG 300
 
 @interface AddCityController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
@@ -27,10 +28,11 @@
 @implementation AddCityController
 
 - (void)viewDidLoad {
+    self.view.backgroundColor = [UIColor whiteColor];
     [super viewDidLoad];
     [self addData];
     [self addUI];
-    self.navigationController.navigationBarHidden = YES;
+  //  self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)addData{
@@ -57,10 +59,9 @@
 - (void)addUI{
     CGFloat edge = 8;
     self.view.backgroundColor = [UIColor whiteColor];
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.mainSize.width, 44)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 64, self.mainSize.width, 44)];
     self.searchBar.placeholder = @"请输入城市名";
     self.searchBar.translucent = YES;
-    [self.searchBar setShowsCancelButton:YES];
     self.searchBar.delegate = self;
     [self.view addSubview:self.searchBar];
     
@@ -184,7 +185,7 @@
     CGFloat imgW = CELLHEADVIEWH - 2 * edge;
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainSize.width, CELLHEADVIEWH - 0)];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
     view.tag = HEADERVIEWTAG + section;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, edge,100,44 - edge * 2)];
@@ -198,7 +199,7 @@
     imageView.userInteractionEnabled = YES;
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CELLHEADVIEWH-1, self.mainSize.width, 1)];
-    line.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    line.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
     tap.delegate = self;
@@ -239,6 +240,14 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self.view endEditing:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    UIView *tmp = [self.navigationController.navigationBar viewWithTag:HEADVIEWTAG];
+    if ([tmp isDescendantOfView:self.navigationController.navigationBar]) {
+        [tmp removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
